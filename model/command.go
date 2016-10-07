@@ -34,6 +34,7 @@ type Command struct {
 	DisplayName      string `json:"display_name"`
 	Description      string `json:"description"`
 	URL              string `json:"url"`
+	AvailableToAll   bool   `json:"available_to_all"`
 }
 
 func (o *Command) ToJson() string {

@@ -38,6 +38,7 @@ export default class AddCommand extends React.Component {
         this.updateAutocomplete = this.updateAutocomplete.bind(this);
         this.updateAutocompleteHint = this.updateAutocompleteHint.bind(this);
         this.updateAutocompleteDescription = this.updateAutocompleteDescription.bind(this);
+        this.updateAvailableToAll = this.updateAvailableToAll.bind(this);
 
         this.state = {
             displayName: '',
@@ -52,7 +53,8 @@ export default class AddCommand extends React.Component {
             autocompleteDescription: '',
             saving: false,
             serverError: '',
-            clientError: null
+            clientError: null,
+            availableToAll: false
         };
     }
 
@@ -82,7 +84,8 @@ export default class AddCommand extends React.Component {
             method: this.state.method,
             username: this.state.username,
             icon_url: this.state.iconUrl,
-            auto_complete: this.state.autocomplete
+            auto_complete: this.state.autocomplete,
+            available_to_all: this.state.availableToAll
         };
 
         if (command.auto_complete) {
@@ -234,6 +237,12 @@ export default class AddCommand extends React.Component {
     updateAutocompleteDescription(e) {
         this.setState({
             autocompleteDescription: e.target.value
+        });
+    }
+
+    updateAvailableToAll(e) {
+        this.setState({
+            availableToAll: e.target.checked
         });
     }
 
@@ -577,6 +586,31 @@ export default class AddCommand extends React.Component {
                             </div>
                         </div>
                         {autocompleteFields}
+                        <div className='form-group'>
+                            <label
+                                className='control-label col-sm-4'
+                                htmlFor='availableToAll'
+                            >
+                                <FormattedMessage
+                                    id='add_command.availableToAll'
+                                    defaultMessage='Available to All Teams'
+                                />
+                            </label>
+                          <div className='col-md-5 col-sm-8 checkbox'>
+                              <input
+                                  id='availableToAll'
+                                  type='checkbox'
+                                  checked={this.state.availableToAll}
+                                  onChange={this.updateAvailableToAll}
+                              />
+                              <div className='form__help'>
+                                  <FormattedMessage
+                                      id='add_command.availableToAll.help'
+                                      defaultMessage='(Optional) Make slash command available to all teams, not just current team.'
+                                  />
+                              </div>
+                          </div>
+                        </div>
                         <div className='backstage-form__footer'>
                             <FormError
                                 type='backstage'

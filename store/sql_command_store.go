@@ -100,7 +100,7 @@ func (s SqlCommandStore) GetByTeam(teamId string) StoreChannel {
 
 		var commands []*model.Command
 
-		if _, err := s.GetReplica().Select(&commands, "SELECT * FROM Commands WHERE TeamId = :TeamId AND DeleteAt = 0", map[string]interface{}{"TeamId": teamId}); err != nil {
+		if _, err := s.GetReplica().Select(&commands, "SELECT * FROM Commands WHERE (TeamId = :TeamId OR AvailableToAll = 1) AND DeleteAt = 0", map[string]interface{}{"TeamId": teamId}); err != nil {
 			result.Err = model.NewLocAppError("SqlCommandStore.GetByTeam", "store.sql_command.save.get_team.app_error", nil, "teamId="+teamId+", err="+err.Error())
 		}
 
